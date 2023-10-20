@@ -11,9 +11,9 @@ steps:
            'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest']
 
   # Change manifests images version
-  - name: 'alpine'
+  - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'sed'
-    args: ['-i', 's|DOCKER_IMAGE|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest|', 'k8s-manifests/test.yaml']
+    args: ['-i', 's|DOCKER_IMAGE|asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest|', 'k8s-manifests/test.yaml']
 
 
 options:
