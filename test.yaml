@@ -1,0 +1,20 @@
+#webserver.yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: webserver
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: webfront
+    template:
+      metadata:
+        labels:
+          app: webfront
+      spec:
+        containers:
+        - image: asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:latests
+          name: webfront-container
+          ports:
+            - containerPort: 80
