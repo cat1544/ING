@@ -6,43 +6,42 @@ steps:
     args: 
       - 'build'
       - '-t'
-      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest'
+      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
       - './k8s-manifests/.'
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'push'
-      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest'
+      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
   
-  # # 3. Update test.yaml to use the new image using yq
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   entrypoint: 'bash'
-  #   args: 
-  #     - '-c'
-  #     - 'sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml'
+  # 3. Update test.yaml to use the new image using yq
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: 
+      - '-c'
+      - 'sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml'
 
-  # # 4. Git Push
-  # - name: 'gcr.io/cloud-builders/git'
-  #   entrypoint: 'bash'
-  #   args:
-  #   - '-c'
-  #   - |
-  #     git config --global user.email "$_USER_EMAIL"
-  #     git config --global user.name "$_USER_NAME"
+  # 4. Git config
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      git config --global user.email "$_USER_EMAIL"
+      git config --global user.name "$_USER_NAME"
 
-  # # 5. Git Commit
-  # - name: 'gcr.io/cloud-builders/git'
-  #   args:
-  #     - 'commit'
-  #     - '-a'
-  #     - '-m'
-  #     - 'Update the image in test.yaml'
+  # 5. Git Commit
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'commit'
+      - '-a'
+      - '-m'
+      - 'Update the image in test.yaml'
 
-  # # 6. Git push
-  # - name: 'gcr.io/cloud-builders/git'
-  #   args:
-  #     - 'push'
-  #     - 'origin'
-  #     - 'main'
+  # 6. Git push
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'push'
+      - 'main'
 
 options:
   logging: CLOUD_LOGGING_ONLY
