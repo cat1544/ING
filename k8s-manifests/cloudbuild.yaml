@@ -42,7 +42,6 @@ steps:
     args:
       - 'push'
       - 'https://github.com/cat1544/ING.git'
-      - 'main'
 
 options:
   logging: CLOUD_LOGGING_ONLY
