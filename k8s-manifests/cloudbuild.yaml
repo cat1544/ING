@@ -43,27 +43,27 @@ steps:
   #     - 'push'
   #     - 'https://github.com/cat1544/ING.git'
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: /bin/sh
-    secretEnv: ['GIT_ACCESS_TOKEN']
-    args:
-    - '-c'
-    - |
-      git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git -b main
-      echo "Updating image tag version ..."
-      cd k8s-manifests
-      sed "s/COMMIT_SHA/${SHORT_SHA}/g" > test.yaml
-      echo "Pushing changes to k8s manifest repo ..."
-      git config --global user.name "$_USER_NAME"
-      git config --global user.email $_USER_EMAIL
-      git add -A
-      git commit -m "[Cloud Builder] Updated image"
-      git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git main
+#   - name: 'gcr.io/cloud-builders/gcloud'
+#     entrypoint: /bin/sh
+#     secretEnv: ['GIT_ACCESS_TOKEN']
+#     args:
+#     - '-c'
+#     - |
+#       git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git -b main
+#       echo "Updating image tag version ..."
+#       cd k8s-manifests
+#       sed "s/COMMIT_SHA/${SHORT_SHA}/g" > test.yaml
+#       echo "Pushing changes to k8s manifest repo ..."
+#       git config --global user.name "$_USER_NAME"
+#       git config --global user.email $_USER_EMAIL
+#       git add -A
+#       git commit -m "[Cloud Builder] Updated image"
+#       git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git main
 
-availableSecrets:
-  secretManager:
-  - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
-    env: 'GIT_ACCESS_TOKEN'
+# availableSecrets:
+#   secretManager:
+#   - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
+#     env: 'GIT_ACCESS_TOKEN'
 
 options:
   logging: CLOUD_LOGGING_ONLY
