@@ -28,7 +28,7 @@ steps:
         git add .
         git status
         git commit -m 'Update the image in test.yaml'
-        git push origin HEAD:main 
+        git push origin HEAD:madter 
   # # 4. Git config
   # - name: 'gcr.io/cloud-builders/git'
   #   entrypoint: 'bash'
