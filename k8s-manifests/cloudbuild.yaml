@@ -59,10 +59,11 @@ steps:
       git add -A
       git commit -m "[Cloud Builder] Updated image"
       git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git main
-  availableSecrets:
-    secretManager:
-    - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
-      env: 'GIT_ACCESS_TOKEN'
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
+    env: 'GIT_ACCESS_TOKEN'
 
 options:
   logging: CLOUD_LOGGING_ONLY
