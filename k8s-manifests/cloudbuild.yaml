@@ -14,25 +14,34 @@ steps:
       - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
   
   # 3. Update test.yaml to use the new image using yq
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args: 
       - '-c'
-      - 'sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml'
-      - 'cat k8s-manifests/test.yaml'
-  # 4. Git config
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
-    args:
-    - '-c'
-    - |
-      git config --global user.email "$_USER_EMAIL"
-      git config --global user.name "$_USER_NAME"
-      cat .gitconfig
-      git add .
-      git commit -m 'Update the image in test.yaml'
-      git status
-      git push origin HEAD:main 
+      - |
+        sed -i s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA| > k8s-manifests/test.yaml'
+        cat k8s-manifests/test.yaml
+        git config --global user.email "$_USER_EMAIL"
+        git config --global user.name "$_USER_NAME"
+        sl -al
+        cat .gitconfig
+        git add .
+        git commit -m 'Update the image in test.yaml'
+        git status
+        git push origin HEAD:main 
+  # # 4. Git config
+  # - name: 'gcr.io/cloud-builders/git'
+  #   entrypoint: 'bash'
+  #   args:
+  #   - '-c'
+  #   - |
+  #     git config --global user.email "$_USER_EMAIL"
+  #     git config --global user.name "$_USER_NAME"
+  #     cat .gitconfig
+  #     git add .
+  #     git commit -m 'Update the image in test.yaml'
+  #     git status
+  #     git push origin HEAD:main 
 #https://cat1544:$_GIT_ACCESS_TOKEN@github.com/cat1544/ING.git
 
 
