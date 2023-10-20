@@ -19,6 +19,7 @@ steps:
     args: 
       - '-c'
       - |
+        git clone --branch=main 'https://cat1544:$_GIT_ACCESS_TOKEN@github.com/cat1544/ING.git' .
         pwd
         ls -al
         sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml
