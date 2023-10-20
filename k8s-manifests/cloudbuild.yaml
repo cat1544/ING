@@ -14,16 +14,15 @@ steps:
   #     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
   
   # 3. Update test.yaml to use the new image using yq
-  - name: 'mikefarah/yq'
-    entrypoint: 'sh'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: '/bin/sh'
     args:
       - '-c'
       - |
-        pwd
         ls
-        # cp k8s-manifests/test.yaml /tmp/test.yaml
-        # yq eval '.spec.template.spec.containers[0].image = "asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA"' /tmp/test.yaml > /tmp/updated-test.yaml
-        # cp /tmp/updated-test.yaml k8s-manifests/test.yaml
+        cd k8s-manifests
+        ls -al
+        'yq eval ".spec.template.spec.containers[0].image = \"asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA\"" k8s-manifests/test.yaml --inplace'
 
   # 4. Git Push
   - name: 'gcr.io/cloud-builders/git'
