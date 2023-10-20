@@ -28,6 +28,7 @@ steps:
     - |
       git config --global user.email "$_USER_EMAIL"
       git config --global user.name "$_USER_NAME"
+      cat .gitconfig
       git add .
       git commit -m 'Update the image in test.yaml'
       git status
