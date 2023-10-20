@@ -32,6 +32,6 @@ steps:
       - 'push'
       - 'origin'
       - 'main'
-
+      - ls
 options:
   logging: CLOUD_LOGGING_ONLY
