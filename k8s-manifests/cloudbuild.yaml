@@ -2,12 +2,12 @@ steps:
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t',
-           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:${SHORT_SHA}',
+           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest',
            '.']
 
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push',
-           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:${SHORT_SHA}']
+           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest']
 options:
   logging: CLOUD_LOGGING_ONLY
