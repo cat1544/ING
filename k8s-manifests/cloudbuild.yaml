@@ -2,12 +2,19 @@ steps:
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t',
-           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest',
+           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:${_VERSION}',
            './k8s-manifests']
 
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push',
-           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest']
+           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:${_VERSION}']
+
+  # Change manifests images version
+  - name: 'alpine'
+    entrypoint: 'sed'
+    args: ['-i', 's|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:${_OLD_VERSION}|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:${_VERSION}|', 'k8s-manifests/test.yaml']
+
+
 options:
   logging: CLOUD_LOGGING_ONLY
