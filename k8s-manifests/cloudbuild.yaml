@@ -1,6 +1,15 @@
 steps:
   # 1. Git Clone (Cloud Build 자동으로 수행)
 
+  # git 인증
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+    - 'remote'
+    - 'add'
+    - 'origin'
+    - 'https://$_SSH_PRIVATE_KEY@https://github.com/cat1544/ING.git'
+
+
   # 2. Docker Build & Push
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: 
