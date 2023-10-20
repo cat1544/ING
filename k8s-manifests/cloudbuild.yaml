@@ -19,7 +19,7 @@ steps:
     args: 
       - '-c'
       - 'sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml'
-
+      - 'cat k8s-manifests/test.yaml'
   # 4. Git config
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
