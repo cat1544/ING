@@ -1,15 +1,6 @@
 steps:
   # 1. Git Clone (Cloud Build 자동으로 수행)
 
-  # git 인증
-  - name: 'gcr.io/cloud-builders/git'
-    args:
-    - 'remote'
-    - 'add'
-    - 'origin'
-    - 'https://$_SSH_PRIVATE_KEY@https://github.com/cat1544/ING.git'
-
-
   # 2. Docker Build & Push
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: 
@@ -30,6 +21,14 @@ steps:
       - 'sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml'
 
   # 4. Git Push
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      git config --global user.email "dbstl159@naver.com"
+      git config --global user.name "cat1544"
+
   - name: 'gcr.io/cloud-builders/git'
     args:
       - 'commit'
