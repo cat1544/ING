@@ -4,9 +4,6 @@ metadata:
   name: nginx-deployment
   labels:
     app: nginx
-  annotations:
-    argocd-image-updater.argoproj.io/write-back-method: "insecure"
-    argocd-image-updater.argoproj.io/image-list: nginx=asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:*
 spec:
   replicas: 2
   selector:
@@ -19,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:latest
+        image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest
         ports:
         - containerPort: 80
 ---
