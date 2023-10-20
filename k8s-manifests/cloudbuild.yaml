@@ -11,8 +11,9 @@ steps:
            'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest']
 
   # Change manifests images version
-  - name: 'gcr.io/cloud-builders/sed'
-    args: ['-i', 's|DOCKER_IMAGE|asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest|', 'k8s-manifests/test.yaml']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['sed', '-i', 
+           's|DOCKER_IMAGE|asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest|', 'k8s-manifests/test.yaml']
 
 options:
   logging: CLOUD_LOGGING_ONLY
