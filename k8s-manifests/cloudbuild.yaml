@@ -26,21 +26,23 @@ steps:
     args:
     - '-c'
     - |
-      git config --global user.email "dbstl159@naver.com"
-      git config --global user.name "cat1544"
+      git config --global user.email "$_USER_EMAIL"
+      git config --global user.name "$_USER_NAME"
 
+  # 5. Git Commit
   - name: 'gcr.io/cloud-builders/git'
     args:
       - 'commit'
       - '-a'
       - '-m'
       - 'Update the image in test.yaml'
+
+  # 6. Git push
   - name: 'gcr.io/cloud-builders/git'
     args:
       - 'push'
       - 'origin'
       - 'main'
-      - ls
 
 options:
   logging: CLOUD_LOGGING_ONLY
