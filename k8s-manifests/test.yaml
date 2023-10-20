@@ -4,10 +4,6 @@ metadata:
   name: nginx-deployment
   labels:
     app: nginx
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:*
-    argocd-image-updater.argoproj.io/myimage.update-strategy: latest
-spec:
   replicas: 2
   selector:
     matchLabels:
@@ -19,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: myimage  # Use the alias defined above
+        image: asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:*
         ports:
         - containerPort: 80
 ---
