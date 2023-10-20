@@ -1,19 +1,40 @@
 steps:
-  # Docker Build
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
-           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest',
-           './k8s-manifests']
+  # 1. Git Clone (Cloud Build 자동으로 수행)
 
-  # Docker Push
+  # 2. Docker Build & Push
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push',
-           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest']
+    args: 
+      - 'build'
+      - '-t'
+      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
+      - './k8s-manifests/Dockerfile'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'push'
+      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
+  
+  # 3. Update test.yaml to use the new image using yq
+  - name: 'mikefarah/yq'
+    args: 
+      - 'yq'
+      - 'eval'
+      - '.spec.template.spec.containers[0].image = "asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA"'
+      - 'k8s-manifests/test.yaml'
+      - '>'
+      - 'k8s-manifests/test.yaml'
 
-  # Change manifests images version
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['sed', '-i', 
-           's|DOCKER_IMAGE|asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:latest|', 'k8s-manifests/test.yaml']
+  # 4. Git Push
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'commit'
+      - '-a'
+      - '-m'
+      - 'Update the image in test.yaml'
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'push'
+      - 'origin'
+      - 'main'
 
 options:
   logging: CLOUD_LOGGING_ONLY
