@@ -23,7 +23,7 @@ steps:
         cat k8s-manifests/test.yaml
         git config --global user.email "dbstl159@naver.com"
         git config --global user.name "cat1544"
-        cat ../.gitconfig
+        cat ~/.gitconfig
         git branch
         git add .
         git status
