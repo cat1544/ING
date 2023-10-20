@@ -1,19 +1,21 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: webserver
+  name: nginx-deployment
+  labels:
+    app: nginx
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: webfront
-  template:  # 이 부분이 spec 아래로 옮겨져야 합니다.
+      app: nginx
+  template:
     metadata:
       labels:
-        app: webfront
+        app: nginx
     spec:
       containers:
-      - image: asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:latests
-        name: webfront-container
+      - name: nginx
+        image: asia-northeast3-docker.pkg.dev/protean-blend-398805/gcf-artifacts/my-image:latest
         ports:
         - containerPort: 80
