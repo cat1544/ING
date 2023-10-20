@@ -1,0 +1,11 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t',
+           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image',
+           '.']
+
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push',
+           'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image']
