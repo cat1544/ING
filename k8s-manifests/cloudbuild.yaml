@@ -18,7 +18,9 @@ steps:
     entrypoint: 'sh'
     args:
       - '-c'
-      - 'yq eval ".spec.template.spec.containers[0].image = \"asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA\"" k8s-manifests/test.yaml --inplace'
+      - 'yq eval ".spec.template.spec.containers[0].image = \"asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA\"" k8s-manifests/test.yaml > temp.yaml && mv temp.yaml k8s-manifests/test.yaml'
+    env:
+      - 'USER=root'
 
   # 4. Git Push
   - name: 'gcr.io/cloud-builders/git'
