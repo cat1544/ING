@@ -30,7 +30,8 @@ steps:
       git config --global user.name "$_USER_NAME"
       git add .
       git commit -m 'Update the image in test.yaml'
-      git push https://cat1544:$_GIT_ACCESS_TOKEN@github.com/cat1544/ING.git main
+      git push origin HEAD:main 
+#https://cat1544:$_GIT_ACCESS_TOKEN@github.com/cat1544/ING.git
 
 
   # # 5. Git Commit
