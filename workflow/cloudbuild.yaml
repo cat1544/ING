@@ -18,8 +18,7 @@ steps:
       - '-c'
       - |
         ls -al
-    secretEnv:
-      - 'GITHUB_TOKEN'
+
   # # 3. Git config
   # - name: 'gcr.io/cloud-builders/git'
   #   entrypoint: 'bash'
@@ -73,10 +72,10 @@ steps:
 #   - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
 #     env: 'GIT_ACCESS_TOKEN'
 
-secrets:
-- kmsKeyName: projects/726340762673/secrets/GIT_ACCESS_TOKEN
-  secretEnv:
-    GITHUB_TOKEN: '1'
+# secrets:
+# - kmsKeyName: projects/726340762673/secrets/GIT_ACCESS_TOKEN
+#   secretEnv:
+#     GITHUB_TOKEN: '1'
 
 options:
   logging: CLOUD_LOGGING_ONLY
