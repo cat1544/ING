@@ -22,7 +22,7 @@ steps:
         cd ING/k8s/cluster/argocd
         pwd
         sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml
-        cat k8s-manifests/test.yaml
+        cat test.yaml
         cat ~/.gitconfig
         git branch
         git add .
