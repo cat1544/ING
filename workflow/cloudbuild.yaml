@@ -12,13 +12,14 @@ steps:
   #     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
   
   # 2. Update test.yaml to use the new image using yq
-  - name: 'gcr.io/cloud-builders/git'
+  - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args: 
       - '-c'
       - |
         git config --global user.email "dbstl159@naver.com"
         git config --global user.name "cat1544"
+        git clone https://github.com/cat1544/ING
         pwd
         cd workspace
         pwd
