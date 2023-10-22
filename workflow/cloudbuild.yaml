@@ -19,3 +19,6 @@ availableSecrets:
   secretManager:
   - versionName: projects/726340762673/secrets/GIT_ACCESS_TOKEN/versions/latest
     env: 'GIT_ACCESS_TOKEN'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
