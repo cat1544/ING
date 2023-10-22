@@ -20,6 +20,8 @@ steps:
         git config --global user.email "dbstl159@naver.com"
         git config --global user.name "cat1544"
         pwd
+        cd workspace
+        pwd
         cd workspace/k8s/cluster/argocd
         pwd
         sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" k8s-manifests/test.yaml
