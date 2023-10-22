@@ -17,7 +17,7 @@ steps:
     git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING main
 availableSecrets:
   secretManager:
-  - versionName: projects/726340762673/secrets/GIT_ACCESS_TOKEN/versions/latest
+  - versionName: projects/726340762673/secrets/GIT_ACCESS_TOKEN/versions/1
     env: 'GIT_ACCESS_TOKEN'
 
 options:
