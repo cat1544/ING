@@ -18,6 +18,7 @@ steps:
       - '-c'
       - |
         sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd/test.yaml
+        cat GKE/cluster/argocd/test.yaml
 
   # # 3. Git config
   # - name: 'gcr.io/cloud-builders/git'
