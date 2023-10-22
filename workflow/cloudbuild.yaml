@@ -12,7 +12,7 @@ steps:
   #     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
   
   # 2. Update test.yaml to use the new image using yq
-  - name: 'gcr.io/$PROJECT_ID/git'
+  - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
     args: 
       - '-c'
@@ -29,7 +29,7 @@ steps:
         git add .
         git status
         git commit -m 'Update the image in test.yaml'
-        git push origin HEAD:main
+        git push origin HEAD
 
   # # 3. Git config
   # - name: 'gcr.io/cloud-builders/git'
