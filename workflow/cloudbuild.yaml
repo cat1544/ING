@@ -5,7 +5,7 @@ steps:
   #     - 'build'
   #     - '-t'
   #     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
-  #     - './k8s-manifests/.'
+  #     - './GKE/cluster/argocd/.'
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: 
   #     - 'push'
@@ -17,7 +17,6 @@ steps:
     args: 
       - '-c'
       - |
-        git clone https://github.com/cat1544/ING.git
         ls -al
     secretEnv:
       - 'GITHUB_TOKEN'
