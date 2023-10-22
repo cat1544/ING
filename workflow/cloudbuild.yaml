@@ -19,7 +19,7 @@ steps:
       - |
         git config --global user.email "dbstl159@naver.com"
         git config --global user.name "cat1544"
-        git clone https://github.com/cat1544/ING
+        git clone --branch main https://github.com/cat1544/ING
         pwd
         cd workspace
         pwd
