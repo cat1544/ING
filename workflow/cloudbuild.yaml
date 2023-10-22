@@ -17,21 +17,17 @@ steps:
     args: 
       - '-c'
       - |
-        sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd/test.yaml
-        cat GKE/cluster/argocd/test.yaml
-        cd ..
-        git add .
-        git status
-        git commit -m 'Update the image in test.yaml'
-        git push origin HEAD
-
+        git clone https://github.com/cat1544/ING.git
+        ls -al
+    secretEnv:
+      - 'GITHUB_TOKEN'
   # # 3. Git config
   # - name: 'gcr.io/cloud-builders/git'
   #   entrypoint: 'bash'
   #   args:
   #   - '-c'
   #   - |
-  
+  #     sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd/test.yaml
   #     git config --global user.email "$_USER_EMAIL"
   #     git config --global user.name "$_USER_NAME"
   #     cat .gitconfig
@@ -77,6 +73,11 @@ steps:
 #   secretManager:
 #   - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
 #     env: 'GIT_ACCESS_TOKEN'
+
+secrets:
+- kmsKeyName: projects/726340762673/secrets/GIT_ACCESS_TOKEN
+  secretEnv:
+    GITHUB_TOKEN: '1'
 
 options:
   logging: CLOUD_LOGGING_ONLY
