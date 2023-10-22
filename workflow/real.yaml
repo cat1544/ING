@@ -1,0 +1,77 @@
+steps:
+  # # 1. Docker Build & Push
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   args: 
+  #     - 'build'
+  #     - '-t'
+  #     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
+  #     - './k8s-manifests/.'
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   args: 
+  #     - 'push'
+  #     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
+  
+  # 2. Update test.yaml to use the new image using yq
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args: 
+      - '-c'
+      - |
+        sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd/test.yaml
+        cat GKE/cluster/argocd/test.yaml
+
+  # # 3. Git config
+  # - name: 'gcr.io/cloud-builders/git'
+  #   entrypoint: 'bash'
+  #   args:
+  #   - '-c'
+  #   - |
+  
+  #     git config --global user.email "$_USER_EMAIL"
+  #     git config --global user.name "$_USER_NAME"
+  #     cat .gitconfig
+  #     git add .
+  #     git commit -m 'Update the image in test.yaml'
+  #     git status
+  #     git push origin HEAD:main 
+#https://cat1544:$_GIT_ACCESS_TOKEN@github.com/cat1544/ING.git
+
+
+  # # 5. Git Commit
+  # - name: 'gcr.io/cloud-builders/git'
+  #   args:
+  #     - 'commit'
+  #     - '-a'
+  #     - '-m'
+  #     - 'Update the image in test.yaml'
+
+  # # 6. Git push
+  # - name: 'gcr.io/cloud-builders/git'
+  #   args:
+  #     - 'push'
+  #     - 'https://github.com/cat1544/ING.git'
+
+#   - name: 'gcr.io/cloud-builders/gcloud'
+#     entrypoint: /bin/sh
+#     secretEnv: ['GIT_ACCESS_TOKEN']
+#     args:
+#     - '-c'
+#     - |
+#       git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git -b main
+#       echo "Updating image tag version ..."
+#       cd k8s-manifests
+#       sed "s/COMMIT_SHA/${SHORT_SHA}/g" > test.yaml
+#       echo "Pushing changes to k8s manifest repo ..."
+#       git config --global user.name "$_USER_NAME"
+#       git config --global user.email $_USER_EMAIL
+#       git add -A
+#       git commit -m "[Cloud Builder] Updated image"
+#       git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/k8s-manifests.git main
+
+# availableSecrets:
+#   secretManager:
+#   - versionName: projects/$PROJECT_NUMBER/secrets/github-access-token/versions/latest
+#     env: 'GIT_ACCESS_TOKEN'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
