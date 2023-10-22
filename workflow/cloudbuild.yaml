@@ -13,7 +13,7 @@
     git config --global user.email "dbstl159@naver.com"
     git add -A
     git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image:$SHORT_SHA from commit ${COMMIT_SHA}"
-    git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/my-image.git -b main
+    git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/my-image.git main
 availableSecrets:
   secretManager:
   - versionName: projects/726340762673/secrets/GIT_ACCESS_TOKEN/versions/latest
