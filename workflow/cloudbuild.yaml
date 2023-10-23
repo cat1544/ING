@@ -21,9 +21,9 @@ steps:
   args:
   - '-c'
   - |
-    git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING.git -b main
+    git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s.git -b main
     echo "Updating image tag version ..."
-    cd ING
+    cd ING_k8s
     ls -al
     sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd/test.yaml
     cat GKE/cluster/argocd/test.yaml
@@ -32,7 +32,7 @@ steps:
     git config --global user.email "$_USER_EMAIL"
     git add GKE/cluster/argocd/test.yaml
     git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image:$SHORT_SHA from commit ${COMMIT_SHA}"
-    git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING main
+    git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s main
     
 availableSecrets:
   secretManager:
