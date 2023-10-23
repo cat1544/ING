@@ -5,7 +5,7 @@ RUN apt-get update &&\
 apt-get -y install apache2
 
 # Install apache and write hello world message
-RUN echo 'argocd2 test4' > /var/www/html/index.html
+RUN echo 'argocd2 test5' > /var/www/html/index.html
 
 # Configure apache
 RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
