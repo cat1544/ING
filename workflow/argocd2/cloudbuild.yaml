@@ -32,7 +32,7 @@ steps:
     git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/argocd2:$SHORT_SHA from commit ${COMMIT_SHA}"
     git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s main
 
-# sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd/test.yaml
+# sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/argocd2/test.yaml
     
 availableSecrets:
   secretManager:
