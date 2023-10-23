@@ -6,7 +6,7 @@ steps:
     - 'build'
     - '-t'
     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA'
-    - './GKE/cluster/argocd/.'
+    - './workflow/.'
 
 # 2. Dokcker Push    
 - name: 'gcr.io/cloud-builders/docker'
