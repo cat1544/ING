@@ -1,18 +1,18 @@
 steps:
 
-# # 1. Docker Build
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: 
-#     - 'build'
-#     - '-t'
-#     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
-#     - './src/frontend/.'
+# 1. Docker Build
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    - 'build'
+    - '-t'
+    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
+    - './src/frontend/.'
 
-# # 2. Dokcker Push    
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: 
-#     - 'push'
-#     - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
+# 2. Dokcker Push    
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    - 'push'
+    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
 
 # 3. Updated image tag
 - name: 'gcr.io/cloud-builders/gcloud'
