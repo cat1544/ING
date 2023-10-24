@@ -1,0 +1,43 @@
+steps:
+
+# 1. Docker Build
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    - 'build'
+    - '-t'
+    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/paymentservice:$SHORT_SHA'
+    - './src/paymentservice/.'
+
+# 2. Dokcker Push    
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    - 'push'
+    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/paymentservice:$SHORT_SHA'
+
+# 3. Updated image tag
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: /bin/sh
+  secretEnv: ['GIT_ACCESS_TOKEN']
+  args:
+  - '-c'
+  - |
+    git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s.git -b main
+    echo "Updating image tag version ..."
+    cd ING_k8s
+    sed -i '/name: paymentservice/,/image:/ s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/paymentservice:'$SHORT_SHA'|' GKE/cluster/app/boutique.yaml
+    echo "Pushing changes to k8s manifest repo ..."
+    git config --global user.name "$_USER_NAME"
+    git config --global user.email "$_USER_EMAIL"
+    git add GKE/cluster/app/boutique.yaml
+    git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/paymentservice:$SHORT_SHA from commit ${COMMIT_SHA}"
+    git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s main
+
+# sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/paymentservice/test.yaml
+    
+availableSecrets:
+  secretManager:
+  - versionName: projects/726340762673/secrets/GIT_ACCESS_TOKEN/versions/1
+    env: 'GIT_ACCESS_TOKEN'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
