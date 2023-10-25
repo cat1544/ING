@@ -21,7 +21,7 @@ steps:
   args:
   - '-c'
   - |
-    git clone https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s.git -b main
+    git clone https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s.git -b main
     echo "Updating image tag version ..."
     cd ING_k8s
     sed -i '/name: adservice/,/image:/ s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/adservice:'$SHORT_SHA'|' GKE/cluster/app/boutique.yaml
@@ -30,7 +30,7 @@ steps:
     git config --global user.email "$_USER_EMAIL"
     git add GKE/cluster/app/boutique.yaml
     git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/adservice:$SHORT_SHA from commit ${COMMIT_SHA}"
-    git push https://cat1544:$$GIT_ACCESS_TOKEN@github.com/cat1544/ING_k8s main
+    git push https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s main
 
 # sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/adservice/test.yaml
     
