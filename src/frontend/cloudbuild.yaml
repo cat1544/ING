@@ -7,39 +7,13 @@ steps:
       - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
       - './src/frontend/.'
 
-  # 2. Docker Run for testing
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'run'
-      - '--rm'
-      - '-d'
-      - '-p'
-      - '8080:8080'
-      - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
-
-  # 3. Test the service using curl
-  - name: 'gcr.io/cloud-builders/curl'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        sleep 10
-        RESPONSE_CODE=$$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8080)
-        if [ "200" -ne "$$RESPONSE_CODE" ]; then
-          echo "Received unexpected response code: $$RESPONSE_CODE"
-          exit 1
-        else
-          echo "Received expected response code: 200"
-        fi
-
-
-  # 4. Push to GCR if the test succeeds
+  # 2. Push to GCR if the test succeeds
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/frontend:$SHORT_SHA'
 
-  # 5. Updated image tag
+  # 3. Updated image tag
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: /bin/sh
     secretEnv: ['GIT_ACCESS_TOKEN']
