@@ -25,8 +25,8 @@ steps:
       - |
         sleep 10
         RESPONSE=$$(curl -i http://localhost:8080 | grep HTTP | cut -d' ' -f2)
-        if [ "200" != "$RESPONSE" ]; then
-          echo "Received unexpected response code: $RESPONSE"
+        if [ "200" != "$$RESPONSE" ]; then
+          echo "Received unexpected response code: $$RESPONSE"
           exit 1
         else
           echo "Received expected response code: 200"
