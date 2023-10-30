@@ -23,8 +23,9 @@ steps:
   - |
     git clone https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s.git -b main
     echo "Updating image tag version ..."
-    cd ING_k8s
-    sed -i '/name: adservice/,/image:/ s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/adservice:'$SHORT_SHA'|' GKE/cluster/app/boutique.yaml
+    cd ING_k8s/GKE/cluster/overlays/develop
+    sed -i 's|\(asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/adservice\)\(\n\s*newTag: \).*|\1\2$SHORT_SHA|' kustomization.yaml    
+    kustomize build . > butique.yaml
     echo "Pushing changes to k8s manifest repo ..."
     git config --global user.name "$_USER_NAME"
     git config --global user.email "$_USER_EMAIL"
