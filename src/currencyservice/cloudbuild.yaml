@@ -36,9 +36,10 @@ steps:
       git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/currencyservice:$SHORT_SHA from commit ${COMMIT_SHA}"
       git push https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s main && break
 
-      echo "Push failed, waiting 10 seconds before pulling and retrying..."
+      echo "Push failed, pulling latest changes and retrying..."
+      git reset --hard HEAD~1  # 현재 커밋을 롤백
+      git pull  # 원격의 최신 변경사항을 가져옴
       sleep 10
-      git pull
     done
     
 availableSecrets:
