@@ -51,7 +51,3 @@ availableSecrets:
 
 options:
   logging: CLOUD_LOGGING_ONLY
-<<<<<<< HEAD
-=======
-  
->>>>>>> 22c9062d6161775e99709a5cbd68fc33aa414377
