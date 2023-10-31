@@ -22,20 +22,23 @@ steps:
   - '-c'
   - |
     git clone https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s.git -b main
-    echo "Updating image tag version ..."
     cd ING_k8s
-    sed -i '/checkoutservice/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/app/kustomization.yaml     
-    kustomize build GKE/cluster/overlays/app > GKE/cluster/overlays/app/butique.yaml
-    echo "Pushing changes to k8s manifest repo ..."
-    git config --global user.name "$_USER_NAME"
-    git config --global user.email "$_USER_EMAIL"
-    git add GKE/cluster/overlays/app/.
-    git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/checkoutservice:$SHORT_SHA from commit ${COMMIT_SHA}"
-    
+
     while true; do
+      echo "Updating image tag version ..."
+      sed -i '/checkoutservice/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/app/kustomization.yaml
+      kustomize build GKE/cluster/overlays/app > GKE/cluster/overlays/app/butique.yaml
+
+      echo "Committing and pushing changes to k8s manifest repo ..."
+      git config --global user.name "$_USER_NAME"
+      git config --global user.email "$_USER_EMAIL"
+      git add GKE/cluster/overlays/app/.
+      git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/checkoutservice:$SHORT_SHA from commit ${COMMIT_SHA}"
       git push https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s main && break
-      echo "Push failed, retrying in 10 seconds..."
+
+      echo "Push failed, waiting 10 seconds before pulling and retrying..."
       sleep 10
+      git pull
     done
     
 availableSecrets:
