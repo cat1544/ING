@@ -27,7 +27,6 @@ steps:
     while true; do
       echo "Updating image tag version ..."
       sed -i '/adservice/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/app/kustomization.yaml
-      kustomize build GKE/cluster/overlays/app > GKE/cluster/overlays/app/butique.yaml
 
       echo "Committing and pushing changes to k8s manifest repo ..."
       git config --global user.name "$_USER_NAME"
@@ -41,8 +40,6 @@ steps:
       git pull  # 원격의 최신 변경사항을 가져옴
       sleep 10
     done
-
-# sed -i "s|image: .*|image: asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image:$SHORT_SHA|" GKE/cluster/adservice/test.yaml
     
 availableSecrets:
   secretManager:
