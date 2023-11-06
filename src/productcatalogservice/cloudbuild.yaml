@@ -5,14 +5,14 @@ steps:
   args: 
     - 'build'
     - '-t'
-    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/productcatalogservice:$SHORT_SHA'
+    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/productcatalogservice:$SHORT_SHA'
     - './src/productcatalogservice/.'
 
 # 2. Dokcker Push    
 - name: 'gcr.io/cloud-builders/docker'
   args: 
     - 'push'
-    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/my-image/productcatalogservice:$SHORT_SHA'
+    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/productcatalogservice:$SHORT_SHA'
 
 # 3. Updated image tag
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -32,7 +32,7 @@ steps:
       git config --global user.name "$_USER_NAME"
       git config --global user.email "$_USER_EMAIL"
       git add GKE/cluster/overlays/app/.
-      git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/my-image/productcatalogservice:$SHORT_SHA from commit ${COMMIT_SHA}"
+      git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/boutique-image/productcatalogservice:$SHORT_SHA from commit ${COMMIT_SHA}"
       git push https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s main && break
 
       echo "Push failed, pulling latest changes and retrying..."
@@ -43,7 +43,7 @@ steps:
     
 availableSecrets:
   secretManager:
-  - versionName: projects/726340762673/secrets/GIT_ACCESS_TOKEN/versions/1
+  - versionName: projects/1081479304655/secrets/GIT_ACCESS_TOKEN/versions/1
     env: 'GIT_ACCESS_TOKEN'
 
 options:
