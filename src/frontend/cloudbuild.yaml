@@ -4,14 +4,14 @@ steps:
   args: 
     - 'build'
     - '-t'
-    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/frontend:$SHORT_SHA'
+    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/frontend:$SHORT_SHA'
     - './src/frontend/.'
 
 # 2. Push to GCR if the test succeeds
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - 'push'
-    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/frontend:$SHORT_SHA'
+    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/frontend:$SHORT_SHA'
 
 # 3. Updated image tag
 - name: 'gcr.io/cloud-builders/gcloud'

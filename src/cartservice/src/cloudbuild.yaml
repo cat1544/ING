@@ -5,14 +5,14 @@ steps:
   args: 
     - 'build'
     - '-t'
-    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/cartservice:$SHORT_SHA'
+    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/cartservice:$SHORT_SHA'
     - './src/cartservice/src/.'
 
 # 2. Dokcker Push    
 - name: 'gcr.io/cloud-builders/docker'
   args: 
     - 'push'
-    - 'asia-northeast3-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/cartservice:$SHORT_SHA'
+    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/cartservice:$SHORT_SHA'
 
 # 3. Updated image tag
 - name: 'gcr.io/cloud-builders/gcloud'
