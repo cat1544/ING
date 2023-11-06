@@ -25,12 +25,13 @@ steps:
 
     while true; do
       echo "Updating image tag version ..."
-      sed -i '/frontend/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/app/kustomization.yaml
+      sed -i '/frontend/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/dev/kustomization.yaml
+      sed -i '/frontend/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/prod/kustomization.yaml
 
       echo "Committing and pushing changes to k8s manifest repo ..."
       git config --global user.name "$_USER_NAME"
       git config --global user.email "$_USER_EMAIL"
-      git add GKE/cluster/overlays/app/.
+      git add GKE/cluster/overlays/.
       git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/boutique-image/frontend:$SHORT_SHA from commit ${COMMIT_SHA}"
       git push https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s main && break
 
