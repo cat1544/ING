@@ -30,7 +30,7 @@ namespace cartservice.cartstore
         public AlloyDBCartStore(IConfiguration configuration)
         {
             // Create a Cloud Secrets client.
-            SecretManagerServiceClient client = SecretManagerServiceClient.Create();
+            // SecretManagerServiceClient client = SecretManagerServiceClient.Create();
             var projectId = configuration["PROJECT_ID"];
             var secretId = configuration["ALLOYDB_SECRET_NAME"];
             // SecretVersionName secretVersionName = new SecretVersionName(projectId, secretId, "latest");
