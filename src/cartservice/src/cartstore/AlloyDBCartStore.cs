@@ -33,9 +33,9 @@ namespace cartservice.cartstore
             SecretManagerServiceClient client = SecretManagerServiceClient.Create();
             var projectId = configuration["PROJECT_ID"];
             var secretId = configuration["ALLOYDB_SECRET_NAME"];
-            SecretVersionName secretVersionName = new SecretVersionName(projectId, secretId, "latest");
+            // SecretVersionName secretVersionName = new SecretVersionName(projectId, secretId, "latest");
 
-            AccessSecretVersionResponse result = client.AccessSecretVersion(secretVersionName);
+            // AccessSecretVersionResponse result = client.AccessSecretVersion(secretVersionName);
             // Convert the payload to a string. Payloads are bytes by default.
             // string alloyDBPassword = result.Payload.Data.ToStringUtf8().TrimEnd('\r', '\n');
             string alloyDBPassword = "rnrmfRNRMF!@#$";
