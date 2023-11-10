@@ -15,3 +15,7 @@ I got my grub on, but didn't pig out
 Finally, got a call from a girl I wanna dig out (what's up?)
 Hooked it up fo' later as I hit the do'
 Thinkin', "Will I live another 24'?"
+
+# git tag 하는법
+git tag -a v1.0.0 -m"Release version 1.0.0"
+git push origin v1.0.0
