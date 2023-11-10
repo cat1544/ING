@@ -23,7 +23,7 @@ steps:
   - |
     git clone https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s.git -b main
     cd ING_k8s
-
+    
     while true; do
       echo "Updating image tag version ..."
       sed -i '/currencyservice/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/dev/kustomization.yaml
