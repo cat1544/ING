@@ -1,5 +1,5 @@
 <p align="center">
-<img src="/src/frontend/static/icons/Hipster_HeroLogo.svg" width="300" alt="Online Boutique" />
+<img src="/src/frontend/static/icons/Hipster_NavLogo.svg" width="300" alt="Online Boutique" />
 </p>
 
 # ING
