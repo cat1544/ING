@@ -38,7 +38,7 @@ namespace cartservice.cartstore
             // AccessSecretVersionResponse result = client.AccessSecretVersion(secretVersionName);
             // Convert the payload to a string. Payloads are bytes by default.
             // string alloyDBPassword = result.Payload.Data.ToStringUtf8().TrimEnd('\r', '\n');
-            string alloyDBPassword = "rnrmfRNRMF!@#$"
+            string alloyDBPassword = "rnrmfRNRMF!@#$";
             // TODO: Create a separate user for connecting within the application
             // rather than using our superuser
             string alloyDBUser = "postgres";
