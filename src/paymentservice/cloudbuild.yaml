@@ -5,14 +5,14 @@ steps:
   args: 
     - 'build'
     - '-t'
-    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/paymentservice:$SHORT_SHA'
+    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/dev-boutique-image/paymentservice:$SHORT_SHA'
     - './src/paymentservice/.'
 
 # 2. Dokcker Push    
 - name: 'gcr.io/cloud-builders/docker'
   args: 
     - 'push'
-    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/boutique-image/paymentservice:$SHORT_SHA'
+    - 'asia-docker.pkg.dev/${PROJECT_ID}/gcf-artifacts/dev-boutique-image/paymentservice:$SHORT_SHA'
 
 # 3. Updated image tag
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -27,13 +27,12 @@ steps:
     while true; do
       echo "Updating image tag version ..."
       sed -i '/paymentservice/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/dev/kustomization.yaml
-      sed -i '/paymentservice/{n;s/newTag: .*/newTag: $SHORT_SHA/;}' GKE/cluster/overlays/prod/kustomization.yaml
 
       echo "Committing and pushing changes to k8s manifest repo ..."
       git config --global user.name "$_USER_NAME"
       git config --global user.email "$_USER_EMAIL"
       git add GKE/cluster/overlays/.
-      git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/boutique-image/paymentservice:$SHORT_SHA from commit ${COMMIT_SHA}"
+      git commit -m "[Cloud Builder] Updated image tag asia-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/dev-boutique-image/paymentservice:$SHORT_SHA from commit ${COMMIT_SHA}"
       git push https://$_USER_NAME:$$GIT_ACCESS_TOKEN@github.com/$_USER_NAME/ING_k8s main && break
 
       echo "Push failed, pulling latest changes and retrying..."
