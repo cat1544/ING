@@ -38,7 +38,7 @@ namespace cartservice.cartstore
             AccessSecretVersionResponse result = client.AccessSecretVersion(secretVersionName);
             // Convert the payload to a string. Payloads are bytes by default.
             string alloyDBPassword = result.Payload.Data.ToStringUtf8().TrimEnd('\r', '\n');
-        
+            // string alloyDBPassword = "rnrmfRNRMF!@#$";
             // TODO: Create a separate user for connecting within the application
             // rather than using our superuser
             string alloyDBUser = "postgres";
@@ -64,26 +64,32 @@ namespace cartservice.cartstore
             Console.WriteLine($"AddItemAsync for {userId} called");
             try
             {
-                await using var dataSource = NpgsqlDataSource.Create(connectionString);
+                await using var connection = new NpgsqlConnection(connectionString);
+                await connection.OpenAsync();
 
-                // Fetch the current quantity for our userId/productId tuple
                 var fetchCmd = $"SELECT quantity FROM {tableName} WHERE userID='{userId}' AND productID='{productId}'";
                 var currentQuantity = 0;
-                var cmdRead = dataSource.CreateCommand(fetchCmd);
-                await using (var reader = await cmdRead.ExecuteReaderAsync())
+
+                await using (var cmdRead = new NpgsqlCommand(fetchCmd, connection))
                 {
-                    while (await reader.ReadAsync())
-                        currentQuantity += reader.GetInt32(0);
+                    await using (var reader = await cmdRead.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                            currentQuantity = reader.GetInt32(0);
+                    }
                 }
+
                 var totalQuantity = quantity + currentQuantity;
 
-                var insertCmd = $"INSERT INTO {tableName} (userId, productId, quantity) VALUES ('{userId}', '{productId}', {totalQuantity})";
-                await using (var cmdInsert = dataSource.CreateCommand(insertCmd))
+                var upsertCmd = $@"
+                    INSERT INTO {tableName} (userId, productId, quantity) 
+                    VALUES ('{userId}', '{productId}', {totalQuantity})
+                    ON CONFLICT (userId, productId) 
+                    DO UPDATE SET quantity = EXCLUDED.quantity;";
+
+                await using (var cmdUpsert = new NpgsqlCommand(upsertCmd, connection))
                 {
-                    await Task.Run(() =>
-                    {
-                        return cmdInsert.ExecuteNonQueryAsync();
-                    });
+                    await cmdUpsert.ExecuteNonQueryAsync();
                 }
             }
             catch (Exception ex)
@@ -92,6 +98,8 @@ namespace cartservice.cartstore
                     new Status(StatusCode.FailedPrecondition, $"Can't access cart storage at {connectionString}. {ex}"));
             }
         }
+
+
 
 
         public async Task<Hipstershop.Cart> GetCartAsync(string userId)
