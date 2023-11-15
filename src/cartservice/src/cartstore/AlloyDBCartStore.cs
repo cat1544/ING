@@ -19,8 +19,6 @@ using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using Google.Api.Gax.ResourceNames;
 using Google.Cloud.SecretManager.V1;
-using Google.Cloud.Logging.V2;
-using Google.Api;
  
 namespace cartservice.cartstore
 {
@@ -28,9 +26,6 @@ namespace cartservice.cartstore
     {
         private readonly string tableName;
         private readonly string connectionString;
-        private readonly LoggingServiceV2Client loggingClient;
-        private readonly string logId;
-        private readonly MonitoredResource resource;
 
         public AlloyDBCartStore(IConfiguration configuration)
         {
@@ -61,11 +56,6 @@ namespace cartservice.cartstore
                                databaseName;
 
             tableName = configuration["ALLOYDB_TABLE_NAME"];
-            
-            // Google Cloud Logging 클라이언트 초기화
-            loggingClient = LoggingServiceV2Client.Create();
-            logId = "cartservice_log";
-            resource = new MonitoredResource { Type = "global" }; // 리소스 타입 설정
         }
 
 
@@ -107,15 +97,10 @@ namespace cartservice.cartstore
                 throw new RpcException(
                     new Status(StatusCode.FailedPrecondition, $"Can't access cart storage at {connectionString}. {ex}"));
             }
-        // Google Cloud Logging에 로그 기록
-            LogEntry logEntry = new LogEntry
-            {
-                LogName = $"projects/{projectId}/logs/{logId}",
-                Resource = resource,
-                TextPayload = $"Product added: {productId}, Quantity: {quantity}, User: {userId}"
-            };
-            loggingClient.WriteLogEntries(logName: logEntry.LogName, resource: logEntry.Resource, entries: { logEntry });
         }
+
+
+
 
         public async Task<Hipstershop.Cart> GetCartAsync(string userId)
         {
