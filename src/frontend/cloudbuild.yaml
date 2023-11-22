@@ -42,7 +42,7 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/1081479304655/secrets/GIT_ACCESS_TOKEN/versions/1
+    - versionName: projects/874882943580/secrets/GIT_ACCESS_TOKEN/versions/1
       env: 'GIT_ACCESS_TOKEN'
 
 options:
