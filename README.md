@@ -22,6 +22,9 @@ github flow를 참고하여 인프라를 설계하였습니다.
 각 서비스에 cloudbuild.yaml파일이 있습니다. cloudbuild의 trigger는 브랜치기반 push트리거를 기반으로 설정하여 해당 서비스의 src폴더 내의 모든 파일중 하나라도 수정하여 push를 하면 build가 진행되도록 하였습니다.
 
 
-# git tag 하는법
+# main branch의 버전 관리 하는 방법
+git tag 를 활용하여 서비스의 버전을 관리하도록 하였습니다.
+```
 git tag -a v1.0.0 -m"Release version 1.0.0"
 git push origin v1.0.0
+```
